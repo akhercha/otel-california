@@ -1,4 +1,4 @@
-use opentelemetry::{global, metrics::Counter, KeyValue};
+use opentelemetry::{global, metrics::Counter};
 
 #[derive(Debug)]
 pub struct Metrics {
@@ -8,13 +8,7 @@ pub struct Metrics {
 
 impl Metrics {
     pub fn new() -> Self {
-        let common_scope_attributes = vec![KeyValue::new("crate", "metrics")];
-        let meter = global::meter_with_version(
-            "metrics.opentelemtry",
-            Some("0.17"),
-            Some("https://opentelemetry.io/schemas/1.2.0"),
-            Some(common_scope_attributes.clone()),
-        );
+        let meter = global::meter("metrics.opentelemtry");
 
         let index_counter = meter
             .u64_counter("index_requests_total")
@@ -30,5 +24,11 @@ impl Metrics {
             index_counter,
             health_counter,
         }
+    }
+}
+
+impl Default for Metrics {
+    fn default() -> Self {
+        Self::new()
     }
 }

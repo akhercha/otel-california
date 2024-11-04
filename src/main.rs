@@ -16,7 +16,7 @@ fn app(metrics: Arc<metrics::Metrics>) -> Router {
         .route("/health", get(handlers::health))
         .route("/", get(handlers::index))
         .layer(OtelAxumLayer::default())
-        .layer(OtelInResponseLayer::default())
+        .layer(OtelInResponseLayer)
         .with_state(metrics)
 }
 
