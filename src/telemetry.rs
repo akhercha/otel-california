@@ -20,9 +20,9 @@ use tracing_subscriber::util::SubscriberInitExt;
 
 pub fn init_telemetry(collection_endpoint: String) -> anyhow::Result<()> {
     let tracing_subscriber = tracing_subscriber::registry()
+        .with(build_otel_layer()?)
         .with(LevelFilter::from_level(Level::INFO))
-        .with(tracing_subscriber::fmt::layer())
-        .with(build_otel_layer()?);
+        .with(tracing_subscriber::fmt::layer().pretty());
 
     let tracer_provider = init_tracer_provider(&collection_endpoint)?;
     let logger_provider = init_logs_provider(&collection_endpoint)?;
