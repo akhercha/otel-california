@@ -165,7 +165,7 @@ dependencies = [
  "pin-project-lite",
  "tower 0.5.1",
  "tracing",
- "tracing-opentelemetry",
+ "tracing-opentelemetry 0.26.0",
  "tracing-opentelemetry-instrumentation-sdk",
 ]
 
@@ -585,7 +585,7 @@ dependencies = [
  "opentelemetry_sdk 0.25.0",
  "thiserror",
  "tracing",
- "tracing-opentelemetry",
+ "tracing-opentelemetry 0.26.0",
  "tracing-subscriber",
 ]
 
@@ -785,6 +785,18 @@ dependencies = [
  "once_cell",
  "pin-project-lite",
  "thiserror",
+]
+
+[[package]]
+name = "opentelemetry-appender-tracing"
+version = "0.26.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "14f62d9a23c680ab91c74605f5006110768eb67600bb654937fef5c852fb8ec7"
+dependencies = [
+ "opentelemetry 0.26.0",
+ "tracing",
+ "tracing-core",
+ "tracing-subscriber",
 ]
 
 [[package]]
@@ -990,13 +1002,16 @@ dependencies = [
  "axum-tracing-opentelemetry",
  "init-tracing-opentelemetry",
  "opentelemetry 0.26.0",
+ "opentelemetry-appender-tracing",
  "opentelemetry-otlp 0.26.0",
  "opentelemetry-semantic-conventions 0.26.0",
  "opentelemetry_sdk 0.26.0",
  "serde_json",
  "tokio",
  "tracing",
+ "tracing-opentelemetry 0.27.0",
  "tracing-opentelemetry-instrumentation-sdk",
+ "tracing-subscriber",
 ]
 
 [[package]]
@@ -1837,6 +1852,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "tracing-opentelemetry"
+version = "0.27.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dc58af5d3f6c5811462cabb3289aec0093f7338e367e5a33d28c0433b3c7360b"
+dependencies = [
+ "js-sys",
+ "once_cell",
+ "opentelemetry 0.26.0",
+ "opentelemetry_sdk 0.26.0",
+ "smallvec",
+ "tracing",
+ "tracing-core",
+ "tracing-log",
+ "tracing-subscriber",
+ "web-time",
+]
+
+[[package]]
 name = "tracing-opentelemetry-instrumentation-sdk"
 version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1845,7 +1878,7 @@ dependencies = [
  "http",
  "opentelemetry 0.25.0",
  "tracing",
- "tracing-opentelemetry",
+ "tracing-opentelemetry 0.26.0",
 ]
 
 [[package]]
@@ -1871,9 +1904,11 @@ dependencies = [
  "serde",
  "serde_json",
  "sharded-slab",
+ "smallvec",
  "thread_local",
  "tracing",
  "tracing-core",
+ "tracing-log",
  "tracing-serde",
 ]
 

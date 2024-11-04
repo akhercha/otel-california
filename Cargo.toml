@@ -8,7 +8,7 @@ init-tracing-opentelemetry = { version = "0.22.0", features = [
     "otlp",
     "tracing_subscriber_ext",
 ] }
-opentelemetry = {version="0.26.0", features = ["metrics"] }
+opentelemetry = { version = "0.26.0", features = ["metrics"] }
 axum = "0.7.7"
 axum-tracing-opentelemetry = "0.21.1"
 opentelemetry-otlp = { version = "0.26.0", features = [
@@ -16,7 +16,7 @@ opentelemetry-otlp = { version = "0.26.0", features = [
     "reqwest-rustls",
     "http-proto",
     "tls",
-    "metrics"
+    "metrics",
 ] }
 serde_json = "1.0.132"
 tokio = { version = "~1.38.0", features = ["full"] }
@@ -26,3 +26,6 @@ anyhow = "1.0.92"
 opentelemetry_sdk = { version = "0.26.0", features = ["metrics", "rt-tokio"] }
 opentelemetry-semantic-conventions = "0.26.0"
 axum-otel-metrics = "0.8.1"
+opentelemetry-appender-tracing = "0.26.0"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+tracing-opentelemetry = "0.27.0"
