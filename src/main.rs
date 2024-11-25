@@ -1,12 +1,15 @@
 pub mod handlers;
 pub mod metrics;
+pub mod middlewares;
 pub mod telemetry;
 
 use std::{net::SocketAddr, sync::Arc};
 
+use axum::middleware;
 use axum::{routing::get, Router};
 use axum_tracing_opentelemetry::middleware::{OtelAxumLayer, OtelInResponseLayer};
 use dotenv::dotenv;
+use middlewares::track_time;
 
 use crate::metrics::Metrics;
 use crate::telemetry::init_telemetry;
@@ -15,6 +18,7 @@ fn app(metrics: Arc<metrics::Metrics>) -> Router {
     Router::new()
         .route("/health", get(handlers::health))
         .route("/", get(handlers::index))
+        .layer(middleware::from_fn(track_time))
         .layer(OtelAxumLayer::default())
         .layer(OtelInResponseLayer)
         .with_state(metrics)
@@ -23,7 +27,9 @@ fn app(metrics: Arc<metrics::Metrics>) -> Router {
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     dotenv().ok();
-    init_telemetry(std::env::var("OTEL_EXPORTER_OTLP_ENDPOINT")?)?;
+    if let Ok(otel_exporter_endpoint) = std::env::var("OTEL_EXPORTER_OTLP_ENDPOINT") {
+        init_telemetry(otel_exporter_endpoint)?;
+    }
     let metrics = Arc::new(Metrics::new());
 
     let app = app(metrics.clone());

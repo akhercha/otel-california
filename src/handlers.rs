@@ -7,7 +7,6 @@ use crate::metrics::Metrics;
 
 #[tracing::instrument]
 pub async fn index(State(metrics): State<Arc<Metrics>>) -> impl IntoResponse {
-    tracing::info!("🌐 GET:index");
     let trace_id = find_current_trace_id();
     metrics.index_counter.add(1, &[]);
     (StatusCode::OK, format!("Hello {:?}!", trace_id))
@@ -15,7 +14,6 @@ pub async fn index(State(metrics): State<Arc<Metrics>>) -> impl IntoResponse {
 
 #[tracing::instrument]
 pub async fn health(State(metrics): State<Arc<Metrics>>) -> impl IntoResponse {
-    tracing::info!("🌐 GET:health");
     metrics.health_counter.add(1, &[]);
     (StatusCode::OK, "Healthy! 🏅".to_string())
 }

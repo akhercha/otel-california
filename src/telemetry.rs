@@ -18,11 +18,19 @@ use tracing_opentelemetry::OpenTelemetryLayer;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 
+const LOG_LEVEL: Level = Level::INFO;
+
 pub fn init_telemetry(collection_endpoint: String) -> anyhow::Result<()> {
     let tracing_subscriber = tracing_subscriber::registry()
         .with(build_otel_layer()?)
-        .with(LevelFilter::from_level(Level::INFO))
-        .with(tracing_subscriber::fmt::layer().pretty());
+        .with(LevelFilter::from_level(LOG_LEVEL))
+        .with(
+            tracing_subscriber::fmt::layer()
+                .with_target(false)
+                .with_file(false)
+                .with_line_number(false)
+                .pretty(),
+        );
 
     let tracer_provider = init_tracer_provider(&collection_endpoint)?;
     let logger_provider = init_logs_provider(&collection_endpoint)?;
